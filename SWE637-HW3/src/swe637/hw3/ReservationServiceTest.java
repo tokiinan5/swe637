@@ -11,7 +11,7 @@ import static org.mockito.Mockito.*;
 public class ReservationServiceTest {
 
 	private ReservationService reservationService = null;
-	private Customer customer = null;
+	private Customer customer,customer1,customer2 = null;
 	private RankingService rankingService = null;
 	private RankingService realRankingService = null;
 
@@ -19,6 +19,8 @@ public class ReservationServiceTest {
 	public void setUp() {
 		reservationService = new ReservationService();
 		customer = new Customer("John Smith", new Rank(10));
+		customer1 = new Customer("John Smith", new Rank(18));
+		customer2 = new Customer("John Smith", new Rank(15));
 		rankingService = mock(RankingService.class); //creates mock
 		realRankingService = new RankingService();
 	}
@@ -29,6 +31,17 @@ public class ReservationServiceTest {
 		ReservationService spyService = spy(reservationService);
 		doNothing().when(spyService).reserve(customer);	
 	}
+	
+	@Test
+	public void RealReservationService() {
+		ReservationService rs=new ReservationService();
+		rs.reserve(customer);
+		rs.reserve(customer1);
+		rs.reserve(customer2);
+		assertEquals(4,rs.returnSize());
+	}
+		
+		
 
 	@Test
 	public void testRankingService() {
@@ -56,4 +69,6 @@ public class ReservationServiceTest {
 	}
 
 	
+}
+
 }
